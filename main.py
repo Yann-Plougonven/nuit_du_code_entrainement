@@ -16,7 +16,7 @@ class Jeu:
         self.tirs_liste = []
         self.ennemis_liste = []
         self.frame_count = 0  # Nombre d'image affichées depuis le début du jeu
-        self.vies = 3
+        self.vies = 10
         self.explosions_liste = []
 
         pyxel.run(self.update, self.draw)
@@ -64,7 +64,7 @@ class Jeu:
             if self.vaisseau_x - ennemi["x"] in range (-8, 9) and self.vaisseau_y - ennemi["y"] in range (-8, 9):
                 self.vies -= 1
                 self.ennemis_liste.remove(ennemi)
-                self.explosion_vaisseau_creation()
+                self.explosions_creation(self.vaisseau_x, self.vaisseau_y)
                       
     def tir_colision(self):
         """S'il y a colision entre un tir et un ennemi, supprimer l'ennemi"""
@@ -73,9 +73,16 @@ class Jeu:
                 if tir["x"] - ennemi["x"] in range (-1, 9) and tir["y"] - ennemi["y"] in range (-1, 9):
                     self.ennemis_liste.remove(ennemi)
                     
-    def explosion_vaisseau_creation(self):
-        """Creation d'une explosion quand il y a colision entre un ennemi et le vaisseau"""
-        self.explosions_liste.append({"x" : self.vaisseau_x+4, "y" : self.vaisseau_y+4})        
+    def explosions_creation(self, x, y):
+        """explosions aux points de collision entre deux objets"""
+        self.explosions_liste.append([x, y, 0])
+    
+    def explosions_animation(self):
+        """animation des explosions"""
+        for explosion in self.explosions_liste:
+            explosion[2] +=1
+            if explosion[2] == 12:
+                self.explosions_liste.remove(explosion)
     
 
     # =====================================================
@@ -102,6 +109,9 @@ class Jeu:
         
         self.vaisseau_colision()
         self.tir_colision()
+        
+        # evolution de l'animation des explosions
+        self.explosions_animation()
 
 
     # =====================================================
@@ -127,7 +137,8 @@ class Jeu:
                 
             # explosions
             for explosion in self.explosions_liste:
-                pyxel.circ(explosion["x"], explosion["y"], 3, 9)
+                for explosion in self.explosions_liste:
+                    pyxel.circb(explosion[0]+4, explosion[1]+4, 2*(explosion[2]//4), 8+explosion[2]%3)
                 
         
         else:
