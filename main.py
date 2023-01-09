@@ -16,10 +16,12 @@ class Jeu:
         self.tirs_liste = []
         self.ennemis_liste = []
         self.frame_count = 0  # Nombre d'image affichées depuis le début du jeu
-        self.vies = 10
+        self.vies = 3
         self.explosions_liste = []
-
+        
+        pyxel.load("images.pyxres") # load les ressources et images METTRE AVANT LE RUN
         pyxel.run(self.update, self.draw)
+        
 
 
     def vaisseau_deplacement(self):
@@ -127,8 +129,14 @@ class Jeu:
         pyxel.cls(0)
         
         if self.vies > 0:
-            # vaisseau (carre 8x8)
-            pyxel.rect(self.vaisseau_x, self.vaisseau_y, 8, 8, 1)
+            pyxel.blt(0, 1, 0, 8, 24, 8, 8)
+            if self.vies == 2:
+                pyxel.blt(0, 1, 0, 8, 24, 8, 8)
+            if self.vies == 3:
+                pyxel.blt(0, 1, 0, 8, 24, 8, 8)
+            
+            #vaisseau
+            pyxel.blt(self.vaisseau_x, self.vaisseau_y, 0, 0, 0, 8, 8)
             
             #tirs
             for tir in self.tirs_liste:
@@ -136,7 +144,8 @@ class Jeu:
                 
             # un ennemi par seconde
             for ennemi in self.ennemis_liste:
-                pyxel.rect(ennemi["x"], ennemi["y"], 8, 8, 2)
+                pyxel.blt(ennemi["x"], ennemi["y"], 0, 0, 8, 8, 8)
+                #pyxel.rect(ennemi["x"], ennemi["y"], 8, 8, 2)
                 
             # explosions
             for explosion in self.explosions_liste:
@@ -145,6 +154,6 @@ class Jeu:
                 
         else:
             pyxel.text(50,64, 'GAME OVER', 7)
-            #pyxel.text(57,80, 'cheh', 5)
+            pyxel.text(57,80, 'cheh', 5)
 
 Jeu()
