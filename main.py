@@ -72,6 +72,8 @@ class Jeu:
             for ennemi in self.ennemis_liste:
                 if tir["x"] - ennemi["x"] in range (-1, 9) and tir["y"] - ennemi["y"] in range (-1, 9):
                     self.ennemis_liste.remove(ennemi)
+                    self.tirs_liste.remove(tir)
+                    self.explosions_creation(ennemi["x"], ennemi["y"])
                     
     def explosions_creation(self, x, y):
         """explosions aux points de collision entre deux objets"""
@@ -107,6 +109,7 @@ class Jeu:
         # Mise à jour de la position des ennemis
         self.ennemi_deplacement()
         
+        # Update de l vérification des collisions
         self.vaisseau_colision()
         self.tir_colision()
         
@@ -140,7 +143,6 @@ class Jeu:
                 for explosion in self.explosions_liste:
                     pyxel.circb(explosion[0]+4, explosion[1]+4, 2*(explosion[2]//4), 8+explosion[2]%3)
                 
-        
         else:
             pyxel.text(50,64, 'GAME OVER', 7)
             #pyxel.text(57,80, 'cheh', 5)
