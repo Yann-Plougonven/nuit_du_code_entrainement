@@ -128,12 +128,12 @@ class Jeu:
         # vide la fenetre
         pyxel.cls(0)
         
-        if self.vies > 0:
+        if self.vies >= 1:
             pyxel.blt(0, 1, 0, 8, 24, 8, 8)
-            if self.vies == 2:
-                pyxel.blt(0, 1, 0, 8, 24, 8, 8)
+            if self.vies >= 2:
+                pyxel.blt(9, 1, 0, 8, 24, 8, 8)
             if self.vies == 3:
-                pyxel.blt(0, 1, 0, 8, 24, 8, 8)
+                pyxel.blt(18, 1, 0, 8, 24, 8, 8)
             
             #vaisseau
             pyxel.blt(self.vaisseau_x, self.vaisseau_y, 0, 0, 0, 8, 8)
@@ -143,8 +143,9 @@ class Jeu:
                 pyxel.rect(tir["x"], tir["y"], 1, 4, 10)
                 
             # un ennemi par seconde
+            coef = pyxel.frame_count  // 3%3
             for ennemi in self.ennemis_liste:
-                pyxel.blt(ennemi["x"], ennemi["y"], 0, 0, 8, 8, 8)
+                pyxel.blt(ennemi["x"], ennemi["y"], 0, 0, 8 + 8*coef, 8, 8)
                 #pyxel.rect(ennemi["x"], ennemi["y"], 8, 8, 2)
                 
             # explosions
