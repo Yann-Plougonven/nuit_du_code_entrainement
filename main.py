@@ -140,13 +140,15 @@ class Jeu:
             
             #tirs
             for tir in self.tirs_liste:
-                pyxel.rect(tir["x"], tir["y"], 1, 4, 10)
+                #pyxel.rect(tir["x"], tir["y"], 1, 4, 10)
+                pyxel.blt(tir["x"]-4, tir["y"]-2, 0, 8, 0, 8, 8)
                 
             # un ennemi par seconde
-            coef = pyxel.frame_count  // 3%3
+            coef = pyxel.frame_count  // 3%3  # Pour alterner les images (animation des enemis)
             for ennemi in self.ennemis_liste:
-                pyxel.blt(ennemi["x"], ennemi["y"], 0, 0, 8 + 8*coef, 8, 8)
                 #pyxel.rect(ennemi["x"], ennemi["y"], 8, 8, 2)
+                pyxel.blt(ennemi["x"], ennemi["y"], 0, 0, 8 + 8*coef, 8, 8)
+                
                 
             # explosions
             for explosion in self.explosions_liste:
